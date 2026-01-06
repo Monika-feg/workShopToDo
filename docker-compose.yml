@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: todoworkshop-mysql
+    environment:
+      MYSQL_DATABASE: todoworkshop
+      MYSQL_USER: workShopTodo
+      MYSQL_PASSWORD: workShopTodo
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: todoworkshop-app
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_HOST: mysql
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:
